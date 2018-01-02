@@ -70,8 +70,9 @@ main() {
   local flag_optimize='false'
   local opt_frame=$DEFAULT_OPT_FRAME
   local opt_delay=$DEFAULT_OPT_DELAY
+  local opt_resize=''
 
-  while getopts d:of:s:vxh flag; do
+  while getopts d:of:s:r:vxh flag; do
     case "${flag}" in
       # Common options
       d ) output_filename_base="${OPTARG}" ;;
@@ -80,6 +81,15 @@ main() {
       # Animation option
       f ) opt_frame="${OPTARG}" ;;
       s ) opt_delay="${OPTARG}" ;;
+      r )
+        if expr "${OPTARG}" : '[0-9]*' > /dev/null ; then
+          opt_resize="${OPTARG}" ;
+          exit 1 ;
+        else
+          err "error: resize option should specify number only. specified '${OPTARG}'" ;
+          usage ; exit 1 ;
+        fi
+        ;;
 
       # Debugging
       v ) LOG_LEVEL=1 ;;
