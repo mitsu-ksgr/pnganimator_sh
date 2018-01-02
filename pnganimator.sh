@@ -82,9 +82,10 @@ main() {
       f ) opt_frame="${OPTARG}" ;;
       s ) opt_delay="${OPTARG}" ;;
       r )
-        if expr "${OPTARG}" : '[0-9]*' > /dev/null ; then
+        if [[ ${OPTARG} =~ ^([0-9])+$ ]] ; then
           opt_resize="${OPTARG}" ;
-          exit 1 ;
+          echo "opt_resize = ${opt_resize}"
+          exit 1
         else
           err "error: resize option should specify number only. specified '${OPTARG}'" ;
           usage ; exit 1 ;
