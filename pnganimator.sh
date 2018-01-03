@@ -84,8 +84,6 @@ main() {
       r )
         if [[ ${OPTARG} =~ ^([0-9])+$ ]] ; then
           opt_resize="${OPTARG}" ;
-          echo "opt_resize = ${opt_resize}"
-          exit 1
         else
           err "error: resize option should specify number only. specified '${OPTARG}'" ;
           usage ; exit 1 ;
@@ -141,15 +139,27 @@ main() {
   logd "## Animation Options"
   logd "Frame: ${opt_frame}"
   logd "Speed: ${opt_delay}"
+  logd "Resize: ${opt_resize}"
   logd
   logd "## Temporary Dirs"
   logd "TmpDir: ${tmp_dir}"
   logd
 
   #---------------------------------------------------------
+  # Resize
+  local src_file_path="${input_file_path}"
+  if [ -n "${opt_resize}" ] ; then
+    local resize_image_path="${tmp_dir}/${src_file_path}"
+    cp "${src_file_path}" "${resize_image_path}"
+    resize "${resize_image_path}" "${opt_resize}"
+    src_file_path="${resize_image_path}"
+  fi
+
+  #---------------------------------------------------------
+  # Animation
   case "${anim_mode}" in
     rotate )
-      rotate "${input_file_path}" \
+      rotate "${src_file_path}" \
              "${output_filename_base}" \
              "${tmp_dir}" \
              $opt_frame $opt_delay "${flag_optimize}"
