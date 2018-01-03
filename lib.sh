@@ -50,19 +50,12 @@ optimize() {
 #   3. size (length of one side)
 resize() {
   convert "$1" \
-          -resize "${2}x${2}" \
-          -background none \
-          -fill '#00000000' \
-          -transparent white \
-          -fuzz 10% \
-          -draw 'matte 1,1 floodfill' \
-          "$1"
+      -resize "${2}x${2}" \
+      -size "${2}x${2}" \
+      xc:transparent +swap -gravity center -composite \
+      "$1"
   logd "resize: resized $1"
 }
-# @Note
-# 1. copy input file to tmp
-# 2. resize it
-# 3. make ani-gif with an resized image.
 
 
 #===============================================================================
