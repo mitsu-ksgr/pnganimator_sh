@@ -33,6 +33,7 @@ Animation Mode:
 Options:
     -s  Animation Speed. Default $OPT_FRAME_DEFAULT.
     -f  Animation Frames. Default $OPT_DELAY_DEFAULT.
+    -r  Image size of output animation.
     -d  Destination File Name Base.
     -o  Run optimize.
     -v  Verbose Mode.

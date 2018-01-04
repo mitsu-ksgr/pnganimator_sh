@@ -14,6 +14,7 @@ $ pnganimator_sh [-s SPEED] [-f FRAME] [-d DEST_FILE] [-o] [-v] [-x] anim_mode i
 ### Options
 - ```-s``` Animation Speed.
 - ```-f``` Animation Frames.
+- ```-r``` Image size of output animation.
 - ```-d``` Destination File Name Base.
 - ```-o``` Run optimize.
 - ```-v``` Verbose Mode.
