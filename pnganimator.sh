@@ -147,13 +147,20 @@ main() {
 
   #---------------------------------------------------------
   # Resize
-  local src_file_path="${input_file_path}"
+  local extent_size=''
+  local resized_image_path="${tmp_dir}/${input_file_path}"
+  cp "${input_file_path}" "${resized_image_path}"
+
   if [ -n "${opt_resize}" ] ; then
-    local resize_image_path="${tmp_dir}/${src_file_path}"
-    cp "${src_file_path}" "${resize_image_path}"
-    resize "${resize_image_path}" "${opt_resize}"
-    src_file_path="${resize_image_path}"
+    resize "${resized_image_path}" "${opt_resize}"
+    extent_size="${opt_resize}"
+  else
+    local sizes=(`identify -format "%w %h" "${input_file_path}"`)
+    local size=`max ${sizes[@]}`
+    resize "${resized_image_path}" "${size}"
+    extent_size="${size}"
   fi
+  local src_file_path="${resized_image_path}"
 
   #---------------------------------------------------------
   # Animation
@@ -162,7 +169,8 @@ main() {
       rotate "${src_file_path}" \
              "${output_filename_base}" \
              "${tmp_dir}" \
-             $opt_frame $opt_delay "${flag_optimize}"
+             "${opt_frame}" "${opt_delay}" "${extent_size}" \
+             "${flag_optimize}"
       ;;
 
     move )
